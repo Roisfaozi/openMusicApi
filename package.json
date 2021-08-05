@@ -1,10 +1,9 @@
 {
     "name": "open-music-api",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "index.js",
     "scripts": {
-        
         "start-dev": "nodemon ./src/server.js",
         "lint": "eslint ./src",
         "migrate": "node-pg-migrate"
@@ -22,6 +21,8 @@
     },
     "dependencies": {
         "@hapi/hapi": "^20.1.0",
+        "@hapi/jwt": "^2.0.1",
+        "bcrypt": "^5.0.1",
         "dotenv": "^10.0.0",
         "joi": "^17.4.0",
         "nanoid": "^3.1.20",

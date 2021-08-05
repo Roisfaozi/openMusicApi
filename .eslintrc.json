@@ -12,5 +12,11 @@
         "sourceType": "module"
     },
     "rules": {
+        "space-before-function-paren": ["error", "always"],
+        "no-console": "off",
+        "linebreak-style": "off",
+        "no-underscore-dangle": "off",
+        "camelcase": "off",
+        "comma-dangle": "off"
     }
 }
