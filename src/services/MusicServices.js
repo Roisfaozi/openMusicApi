@@ -15,7 +15,7 @@ class MusicService {
     const updatedAt = insertedAt
 
     const query = {
-      test: 'INSERT INTO music VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
       values: [id, title, year, performer, genre, duration, insertedAt, updatedAt]
     }
 
@@ -29,13 +29,13 @@ class MusicService {
   }
 
   async getMusic () {
-    const result = await this.pool.query('SELECT id, title, performer FROM music')
+    const result = await this.pool.query('SELECT id, title, performer FROM songs')
     return result.rows
   }
 
   async getMusicById (id) {
     const query = {
-      text: 'SELECT * FROM music WHERE id = $1',
+      text: 'SELECT * FROM songs WHERE id = $1',
       values: [id]
     }
     const result = await this.pool.query(query)
@@ -70,7 +70,7 @@ class MusicService {
     values.push(id)
 
     const query = {
-      text: `UPDATE music SET ${fields} WHERE id = $${values.length} RETURNING id`,
+      text: `UPDATE songs SET ${fields} WHERE id = $${values.length} RETURNING id`,
       values
     }
     const result = await this.pool.query(query)
@@ -83,7 +83,7 @@ class MusicService {
 
   async deleteMusicById (id) {
     const query = {
-      text: 'DELETE FROM music WHERE id = $1 RETURNING id',
+      text: 'DELETE FROM songs WHERE id = $1 RETURNING id',
       values: [id]
     }
     const result = await this.pool.query(query)

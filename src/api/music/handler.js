@@ -24,12 +24,12 @@ class MusicHandler {
         duration = null
       } = request.payload
 
-      const musicId = await this.service.addMusic(title, year, performer, genre, duration)
+      const songId = await this.service.addMusic(title, year, performer, genre, duration)
       return h.response({
         status: 'success',
         message: 'Lagu berhasil ditambahkan',
         data: {
-          musicId
+          songId
         }
       })
         .code(201)
@@ -51,12 +51,12 @@ class MusicHandler {
   }
 
   async getMusicHandler () {
-    const music = await this.service.getMusic()
+    const songs = await this.service.getMusic()
 
     return {
       status: 'success',
       data: {
-        music
+        songs
       }
     }
   }
@@ -65,12 +65,12 @@ class MusicHandler {
     const { id } = request.params
 
     try {
-      const music = await this.service.getMusicById(id)
+      const song = await this.service.getMusicById(id)
 
       return {
         status: 'success',
         data: {
-          music
+          song
         }
       }
     } catch (error) {
@@ -104,7 +104,7 @@ class MusicHandler {
         duration = null
       } = request.payload
 
-      await this.servce.editMusicByid(id, title, year, performer, genre, duration)
+      await this.service.editMusicById(id, title, year, performer, genre, duration)
       return {
         status: 'success',
         message: 'Lagu berhasil diperbarui'
