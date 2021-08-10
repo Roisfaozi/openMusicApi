@@ -26,7 +26,7 @@ class CollaborationsService {
 
   async deleteCollaboration (playlistId, userId) {
     const query = {
-      text: 'DELETE FROM collaborations WHERE note_id = $1 AND user_id = $2 RETURNING id',
+      text: 'DELETE FROM collaborations WHERE playlist_id = $1 AND user_id = $2 RETURNING id',
       values: [playlistId, userId],
     }
 

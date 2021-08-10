@@ -14,11 +14,11 @@ class CollaborationsHandler {
     try {
       this._validator.validateCollaborationPayload(request.payload)
       const { id: credentialId } = request.auth.credentials
-      const { noteId, userId } = request.payload
+      const { playlistId, userId } = request.payload
 
-      await this._notesService.verifyNoteOwner(noteId, credentialId)
+      await this._playlistServices.verifyPlaylistOwner(playlistId, credentialId)
       const collaborationId =
-        await this._collaborationsService.addCollaboration(noteId, userId)
+        await this._collaborationsService.addCollaboration(playlistId, userId)
 
       const response = h.response({
         status: 'success',
@@ -35,7 +35,7 @@ class CollaborationsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -54,10 +54,10 @@ class CollaborationsHandler {
     try {
       this._validator.validateCollaborationPayload(request.payload)
       const { id: credentialId } = request.auth.credentials
-      const { noteId, userId } = request.payload
+      const { playlistId, userId } = request.payload
 
-      await this._notesService.verifyNoteOwner(noteId, credentialId)
-      await this._collaborationsService.deleteCollaboration(noteId, userId)
+      await this._playlistServices.verifyPlaylistOwner(playlistId, credentialId)
+      await this._collaborationsService.deleteCollaboration(playlistId, userId)
 
       return {
         status: 'success',
@@ -69,7 +69,7 @@ class CollaborationsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 

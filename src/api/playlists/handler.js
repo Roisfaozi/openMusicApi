@@ -19,10 +19,10 @@ class PlaylistsHandler {
     try {
       this._validator.validatePlaylistPayload(request.payload)
       const { name } = request.payload
-      const { id: credentialId } = request.auth.credentials
+      const { id: owner } = request.auth.credentials
       const playlistId = await this._playlistServices.addPlaylist({
         name,
-        credentialId,
+        owner,
       })
 
       return h
@@ -99,7 +99,7 @@ class PlaylistsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -153,19 +153,40 @@ class PlaylistsHandler {
   }
 
   async getMusicsPlaylistHandler (request, h) {
-    const { id: credentialId } = request.auth.credentials
-    const { playlistId } = request.params
+    try {
+      const { playlistId } = request.params
+      const { id: credentialId } = request.auth.credentials
 
-    await this._playlistServices.verifyPlaylistAccess(playlistId, credentialId)
+      await this._playlistServices.verifyPlaylistAccess(
+        playlistId,
+        credentialId,
+      )
 
-    const songsFromPlaylist =
-      await this._playlistMusicService.getMusicsPlaylist(playlistId)
+      const musicFromPlaylist =
+        await this._playlistMusicService.getMusicsPlaylist(playlistId)
 
-    return {
-      status: 'success',
-      data: {
-        songs: songsFromPlaylist,
-      },
+      return {
+        status: 'success',
+        data: {
+          songs: musicFromPlaylist,
+        },
+      }
+    } catch (error) {
+      if (error instanceof ClientError) {
+        return h
+          .response({
+            status: 'fail',
+            message: error.message,
+          })
+          .code(error.statuscode)
+      }
+      console.log(error)
+      return h
+        .response({
+          status: 'error',
+          message: 'Maaf, terjadi kesalahan pada server kami',
+        })
+        .code(500)
     }
   }
 
@@ -194,7 +215,7 @@ class PlaylistsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 

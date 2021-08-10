@@ -110,7 +110,7 @@ class MusicService {
       text: 'SELECT COUNT(1) FROM songs WHERE id = $1',
       values: [songId],
     }
-    const result = await this._pool.query(query)
+    const result = await this.pool.query(query)
     if (!result) {
       throw new NotFoundError('Lagu yang dicari tidak ditemukan')
     }
