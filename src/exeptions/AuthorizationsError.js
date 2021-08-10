@@ -6,4 +6,5 @@ class AuthorizationError extends ClientError {
     this.name = 'AuthorizationError'
   }
 }
+
 module.exports = AuthorizationError

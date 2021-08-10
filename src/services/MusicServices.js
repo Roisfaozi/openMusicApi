@@ -16,7 +16,16 @@ class MusicService {
 
     const query = {
       text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-      values: [id, title, year, performer, genre, duration, insertedAt, updatedAt]
+      values: [
+        id,
+        title,
+        year,
+        performer,
+        genre,
+        duration,
+        insertedAt,
+        updatedAt,
+      ],
     }
 
     const result = await this.pool.query(query)
@@ -29,14 +38,16 @@ class MusicService {
   }
 
   async getMusic () {
-    const result = await this.pool.query('SELECT id, title, performer FROM songs')
+    const result = await this.pool.query(
+      'SELECT id, title, performer FROM songs'
+    )
     return result.rows
   }
 
   async getMusicById (id) {
     const query = {
       text: 'SELECT * FROM songs WHERE id = $1',
-      values: [id]
+      values: [id],
     }
     const result = await this.pool.query(query)
 
@@ -71,7 +82,7 @@ class MusicService {
 
     const query = {
       text: `UPDATE songs SET ${fields} WHERE id = $${values.length} RETURNING id`,
-      values
+      values,
     }
     const result = await this.pool.query(query)
 
@@ -84,13 +95,24 @@ class MusicService {
   async deleteMusicById (id) {
     const query = {
       text: 'DELETE FROM songs WHERE id = $1 RETURNING id',
-      values: [id]
+      values: [id],
     }
     const result = await this.pool.query(query)
 
     // if not success delete
     if (!result.rows.length) {
       throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan')
+    }
+  }
+
+  async verifySongIsExist (songId) {
+    const query = {
+      text: 'SELECT COUNT(1) FROM songs WHERE id = $1',
+      values: [songId],
+    }
+    const result = await this._pool.query(query)
+    if (!result) {
+      throw new NotFoundError('Lagu yang dicari tidak ditemukan')
     }
   }
 }

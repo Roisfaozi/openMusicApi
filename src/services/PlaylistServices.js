@@ -1,9 +1,9 @@
 const { nanoid } = require('nanoid')
 const { Pool } = require('pg')
 
-const InvariantError = require('../exceptions/InvariantError')
-const AuthorizationError = require('../exceptions/AuthorizationError')
-const NotFoundError = require('../exceptions/NotFoundError')
+const InvariantError = require('../exeptions/InvariantError')
+const NotFoundError = require('../exeptions/NotFoundError')
+const AuthorizationError = require('../exeptions/AuthorizationsError')
 
 class PlaylistServices {
   constructor () {
@@ -24,10 +24,10 @@ class PlaylistServices {
     return result.rows[0].id
   }
 
-  async getPlaylistsByUser (userId) {
+  async getPlaylistsByUser (owner) {
     const query = {
       text: 'SELECT playlists.id, playlists.name, users.username FROM playlists INNER JOIN users ON playlists.owner = users.id LEFT JOIN collaborations ON collaborations.playlist_id = playlists.id WHERE playlists.owner= $1 OR collaborations.user_id = $1',
-      values: [userId],
+      values: [owner],
     }
 
     const result = await this._pool.query(query)
@@ -45,17 +45,17 @@ class PlaylistServices {
     }
   }
 
-  async verifyPlaylistOwner (playlistId, userId) {
+  async verifyPlaylistOwner (id, owner) {
     const query = {
       text: 'SELECT owner FROM playlists WHERE id = $1',
-      values: [playlistId],
+      values: [id],
     }
     const result = await this._pool.query(query)
     if (!result.rowCount) {
       throw new NotFoundError('Playlist yang anda cari tidak ada')
     }
     const playlist = result.rows[0]
-    if (playlist.owner !== userId) {
+    if (playlist.owner !== owner) {
       throw new AuthorizationError('Anda tidak berhak mengakses resource ini')
     }
   }

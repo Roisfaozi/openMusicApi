@@ -19,10 +19,24 @@ const AuthenticationsService = require('./services/AuthenticationsService')
 const TokenManager = require('./tokenize/TokenManager')
 const AuthenticationsValidator = require('./validator/authentications')
 
+// playlists
+const playlists = require('./api/playlists')
+const PlaylistServices = require('./services/PlaylistServices')
+const PlaylistMusicService = require('./services/PlaylistMusicServices')
+const PlaylistsValidator = require('./validator/playlist')
+
+// collaboration
+const collaboration = require('./api/collaborations')
+const CollaborationsService = require('./services/CollaborationService')
+const CollaborationsValidator = require('./validator/collaboorations')
+
 const init = async () => {
+  const collaborationsService = new CollaborationsService()
   const musicService = new MusicService()
   const usersService = new UsersService()
   const authenticationsService = new AuthenticationsService()
+  const playlistServices = new PlaylistServices()
+  const playlistMusicService = new PlaylistMusicService()
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -41,7 +55,7 @@ const init = async () => {
     },
   ])
 
-  server.auth.strategy('notesapp_jwt', 'jwt', {
+  server.auth.strategy('openmusic_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
@@ -79,6 +93,24 @@ const init = async () => {
         usersService,
         tokenManager: TokenManager,
         validator: AuthenticationsValidator,
+      },
+    },
+
+    {
+      plugin: playlists,
+      options: {
+        playlistServices,
+        musicService,
+        playlistMusicService,
+        validator: PlaylistsValidator,
+      },
+    },
+    {
+      plugin: collaboration,
+      options: {
+        collaborationsService,
+        playlistServices,
+        validator: CollaborationsValidator,
       },
     },
   ])
