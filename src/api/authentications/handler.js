@@ -1,4 +1,4 @@
-const ClientError = require('../../exceptions/ClientError')
+const ClientError = require('../../exeptions/ClientError')
 
 class AuthenticationsHandler {
   constructor (authenticationsService, usersService, tokenManager, validator) {
@@ -44,7 +44,7 @@ class AuthenticationsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -80,7 +80,7 @@ class AuthenticationsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -112,7 +112,7 @@ class AuthenticationsHandler {
           status: 'fail',
           message: error.message,
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 

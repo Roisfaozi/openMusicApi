@@ -4,6 +4,12 @@ class MusicHandler {
   constructor (service, validator) {
     this.service = service
     this.validator = validator
+
+    this.postMusicHandler = this.postMusicHandler.bind(this)
+    this.getMusicHandler = this.getMusicHandler.bind(this)
+    this.getMusicByIdHandler = this.getMusicByIdHandler.bind(this)
+    this.putMusicByIdHandler = this.putMusicByIdHandler.bind(this)
+    this.deleteMusicByIdHandler = this.deleteMusicByIdHandler.bind(this)
   }
 
   async postMusicHandler (request, h) {
@@ -36,7 +42,7 @@ class MusicHandler {
           .code(error.statuscode)
       }
       console.log(error)
-      return h.respone({
+      return h.response({
         status: 'error',
         message: 'Maaf, terjadi kesalahan pada server kami'
       })
@@ -73,7 +79,7 @@ class MusicHandler {
           status: 'fail',
           message: error.message
         })
-          .code(error.statusCode)
+          .code(error.statuscode)
       }
 
       console.log(error)
@@ -105,11 +111,12 @@ class MusicHandler {
       }
     } catch (error) {
       if (error instanceof ClientError) {
-        return h.response({
-          status: 'fail',
-          message: error.message
-        })
-          .code(error.statusCode)
+        return h
+          .response({
+            status: 'fail',
+            message: error.message,
+          })
+          .code(error.statuscode)
       }
       console.log(error)
       return h.response({
@@ -132,11 +139,12 @@ class MusicHandler {
       }
     } catch (error) {
       if (error instanceof ClientError) {
-        return h.response({
-          status: 'fail',
-          message: error.message
-        })
-          .code(error.statusCode)
+        return h
+          .response({
+            status: 'fail',
+            message: error.message,
+          })
+          .code(error.statuscode)
       }
 
       console.log(error)

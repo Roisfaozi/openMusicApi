@@ -1,28 +1,43 @@
 const routes = (handler) => [
   {
     method: 'POST',
-    path: '/music',
-    handler: handler.postMusicHandler.bind(handler)
+    path: '/songs',
+    handler: handler.postMusicHandler.bind(handler),
+    options: {
+      auth: 'notesapp_jwt',
+    },
   },
   {
     method: 'GET',
-    path: '/music',
-    handler: handler.getMusicHandler.bind(handler)
+    path: '/songs',
+    handler: handler.getMusicHandler.bind(handler),
+    options: {
+      auth: 'notesapp_jwt',
+    },
   },
   {
     method: 'GET',
-    path: '/music/{id}',
-    handler: handler.getMusicByIdHandler.bind(handler)
+    path: '/songs/{id}',
+    handler: handler.getMusicByIdHandler.bind(handler),
+    options: {
+      auth: 'notesapp_jwt',
+    },
   },
   {
     method: 'PUT',
-    path: '/music/{id}',
-    handler: handler.putMusicByIdHandler.bind(handler)
+    path: '/songs/{id}',
+    handler: handler.putMusicByIdHandler.bind(handler),
+    options: {
+      auth: 'notesapp_jwt',
+    },
   },
   {
     method: 'DELETE',
-    path: '/music/{id}',
-    handler: handler.deleteMusicByIdHandler.bind(handler)
+    path: '/songs/{id}',
+    handler: handler.deleteMusicByIdHandler.bind(handler),
+    options: {
+      auth: 'notesapp_jwt',
+    },
   }
 ]
 
