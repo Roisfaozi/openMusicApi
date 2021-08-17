@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid')
 const { Pool } = require('pg')
-const InvariantError = require('../exeptions/InvariantError')
+const InvariantError = require('../../exeptions/InvariantError')
 
 class PlaylistMusicService {
   constructor () {

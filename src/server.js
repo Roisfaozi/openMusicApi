@@ -2,33 +2,40 @@ require('dotenv').config()
 
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
+const Inert = require('@hapi/inert')
+const path = require('path')
 
 // music
 const music = require('./api/music')
-const MusicService = require('./services/MusicServices')
+const MusicService = require('./services/postgres/MusicServices')
 const musicValidator = require('./validator/music')
 
 // users
 const users = require('./api/users')
-const UsersService = require('./services/UsersServices')
+const UsersService = require('./services/postgres/UsersServices')
 const UsersValidator = require('./validator/users')
 
 // authentications
 const authentications = require('./api/authentications')
-const AuthenticationsService = require('./services/AuthenticationsService')
+const AuthenticationsService = require('./services/postgres/AuthenticationsService')
 const TokenManager = require('./tokenize/TokenManager')
 const AuthenticationsValidator = require('./validator/authentications')
 
 // playlists
 const playlists = require('./api/playlists')
-const PlaylistServices = require('./services/PlaylistServices')
-const PlaylistMusicService = require('./services/PlaylistMusicServices')
+const PlaylistServices = require('./services/postgres/PlaylistServices')
+const PlaylistMusicService = require('./services/postgres/PlaylistMusicServices')
 const PlaylistsValidator = require('./validator/playlist')
 
 // collaboration
 const collaboration = require('./api/collaborations')
-const CollaborationsService = require('./services/CollaborationService')
+const CollaborationsService = require('./services/postgres/CollaborationService')
 const CollaborationsValidator = require('./validator/collaboorations')
+
+// Exports
+const _exports = require('./api/exports')
+const ProducerService = require('./services/rabbitmq/ProducerService')
+const ExportsValidator = require('./validator/exports')
 
 const init = async () => {
   const collaborationsService = new CollaborationsService()
@@ -111,6 +118,14 @@ const init = async () => {
         collaborationsService,
         playlistServices,
         validator: CollaborationsValidator,
+      },
+    },
+    {
+      plugin: _exports,
+      options: {
+        service: ProducerService,
+        validator: ExportsValidator,
+        playlistServices,
       },
     },
   ])
