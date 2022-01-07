@@ -1,7 +1,7 @@
 const ClientError = require('../../exeptions/ClientError')
 
 class ExportsHandler {
-  constructor (service, playlistServices, validator) {
+  constructor(service, playlistServices, validator) {
     this._service = service
     this._playlistServices = playlistServices
     this._validator = validator
@@ -10,7 +10,7 @@ class ExportsHandler {
       this.postExportPlaylistMusicHandler.bind(this)
   }
 
-  async postExportPlaylistMusicHandler (request, h) {
+  async postExportPlaylistMusicHandler(request, h) {
     try {
       this._validator.validateExportMusicPayload(request.payload)
       const { id: userId } = request.auth.credentials
