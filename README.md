@@ -6,6 +6,10 @@
 
 All API authentication will automatically send token by user credential from server
 
+## RabitMq consumer source code
+
+(https://github.com/Roisfaozi/music-app-queue-consumer)[https://github.com/Roisfaozi/music-app-queue-consumer]
+
 ## Create Songs
 
 Request :
