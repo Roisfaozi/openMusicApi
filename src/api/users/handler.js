@@ -1,7 +1,7 @@
 const ClientError = require('../../exeptions/ClientError')
 
 class UsersHandler {
-  constructor (service, validator) {
+  constructor(service, validator) {
     this._service = service
     this._validator = validator
 
@@ -9,7 +9,7 @@ class UsersHandler {
     this.getUserByIdHandler = this.getUserByIdHandler.bind(this)
   }
 
-  async postUserHandler (request, h) {
+  async postUserHandler(request, h) {
     try {
       this._validator.validateUserPayload(request.payload)
       const { username, password, fullname } = request.payload
@@ -53,7 +53,7 @@ class UsersHandler {
     }
   }
 
-  async getUserByIdHandler (request, h) {
+  async getUserByIdHandler(request, h) {
     try {
       const { id } = request.params
       const user = await this._service.getUserById(id)
