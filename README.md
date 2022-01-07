@@ -4,7 +4,7 @@
 
 ## Authentication
 
-All API must use this authentication
+All API authentication will automatically send token by user credential from server
 
 ## Create Songs
 
@@ -19,10 +19,10 @@ Request :
 ```json
 {
   "title": "string",
-  "year": "integer",
+  "year": integer,
   "performer": "string",
   "genre": "string",
-  "duration": "integer"
+  "duration": integer
 }
 ```
 
@@ -87,10 +87,10 @@ Response :
         "song": {
             "id": "string",
             "title": "string"
-            "year": "integer",
+            "year": integer,
             "performer": "string",
             "genre": "string",
-            "duration": "integer",
+            "duration": integer,
             "insertedAt": "string",
             "updatedAt": "string"
         }
@@ -112,10 +112,10 @@ Request :
 ```json
 {
   "title": "string",
-  "year": "integer",
+  "year": integer,
   "performer": "string",
   "genre": "string",
-  "duration": "integer"
+  "duration": integer
 }
 ```
 
@@ -374,3 +374,7 @@ Response :
   "message": "string"
 }
 ```
+
+## Contact
+
+roisfaozi55@gmail.com
